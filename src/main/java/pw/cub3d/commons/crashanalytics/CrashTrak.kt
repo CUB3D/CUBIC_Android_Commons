@@ -22,6 +22,10 @@ object CrashTrak {
         throw RuntimeException("Manually triggered crash")
     }
 
+    fun logCrash(t: Throwable) {
+        onExceptionCaught(t, Thread.currentThread())
+    }
+
     private fun getCallerCallerClassName(): String {
         val stElements = Thread.currentThread().stackTrace
         var callerClassName: String? = null
