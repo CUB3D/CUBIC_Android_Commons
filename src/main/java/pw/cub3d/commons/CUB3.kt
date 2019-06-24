@@ -24,9 +24,11 @@ class CUB3(ctx: Context) {
             Log.d("CUB3", "Variant: ${getInstance().config.variant}")
         }
 
-        fun getInstance(): CUB3 {
+        private fun getInstance(): CUB3 {
             return instance!!
         }
+
+        fun initialised() = instance != null
 
         fun getConfig(): CUB3Config {
             return getInstance().config

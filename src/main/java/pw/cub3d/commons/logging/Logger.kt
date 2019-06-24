@@ -9,7 +9,7 @@ open class Logger(val tag: String) {
     val logHistory = ArrayList<String>()
 
     private fun logMsg(priority: Int, msg: String) {
-        if(CUB3.getConfig().variant.shouldLog) {
+        if(CUB3.initialised() && CUB3.getConfig().variant.shouldLog) {
             Log.println(priority, tag, msg)
             logHistory.add("[${System.currentTimeMillis()}] [$tag] [$priority] $msg")
         }
