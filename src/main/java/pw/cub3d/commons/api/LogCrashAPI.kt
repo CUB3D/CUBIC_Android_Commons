@@ -1,7 +1,6 @@
 package pw.cub3d.commons.api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,7 +11,6 @@ interface ICrashLogger {
 }
 
 class LogResponse {
-    @Expose
-    @SerializedName("Status")
+    @Json(name = "Status")
     var status: Int? = -100
 }

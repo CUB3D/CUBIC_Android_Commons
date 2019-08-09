@@ -7,6 +7,7 @@ import pw.cub3d.commons.configuration.CUB3Config
 import pw.cub3d.commons.configuration.CUB3DConfiguration
 import pw.cub3d.commons.configuration.CUB3Variant
 import pw.cub3d.commons.crashanalytics.CrashTrak
+import pw.cub3d.commons.identification.DeviceIdentification
 import pw.cub3d.commons.utils.Accounts
 import pw.cub3d.commons.utils.SharedPrefs
 
@@ -18,9 +19,11 @@ class CUB3(ctx: Context) {
         private var instance : CUB3? = null
 
         fun initialise(ctx: Context) {
+            SharedPrefs.initialise(ctx)
+            DeviceIdentification.initialise()
+
             instance = CUB3(ctx)
             CrashTrak.register()
-            SharedPrefs.initialise(ctx)
             Accounts.initialise(ctx)
 
             Log.d("CUB3", "Variant: ${getInstance().config.variant}")

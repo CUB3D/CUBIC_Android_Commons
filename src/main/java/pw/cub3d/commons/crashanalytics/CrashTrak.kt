@@ -11,7 +11,7 @@ import java.io.StringWriter
 import java.lang.RuntimeException
 import java.nio.charset.Charset
 import pw.cub3d.commons.api.ICrashLogger
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.lang.Exception
 import java.util.*
@@ -111,7 +111,7 @@ object CrashTrak {
 
             val rf = Retrofit.Builder()
                 .baseUrl("https://auth.cub3d.pw")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
             val service = rf.create(ICrashLogger::class.java)

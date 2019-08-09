@@ -1,15 +1,14 @@
 package pw.cub3d.commons.api
 
 import android.util.Base64
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import okhttp3.OkHttpClient
 import pw.cub3d.commons.logging.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import java.nio.charset.Charset
@@ -21,8 +20,7 @@ interface FeatureSuggestionService {
 }
 
 class FeatureSuggestionResponse {
-    @Expose
-    @SerializedName("Status")
+    @Json(name = "Status")
     var status: Int = 0
 }
 
@@ -31,7 +29,7 @@ object FeatureSuggestionAPI {
         Log.d("Sending suggestion")
         val rf = Retrofit.Builder()
             .baseUrl("https://auth.cub3d.pw")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .client(OkHttpClient())
             .build()
 
