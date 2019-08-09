@@ -27,7 +27,7 @@ class CUB3DConfiguration(val ctx: Context, val defaultConfigName: String = "conf
             }
 
         // Try to fetch a network config
-         ConfiguratigstonAPI.getConfig()
+         ConfigurationAPI.getConfig()
     }
 
     fun loadFromJson(json: JSONObject) {
@@ -36,7 +36,6 @@ class CUB3DConfiguration(val ctx: Context, val defaultConfigName: String = "conf
         }
     }
 
-    @SuppressLint("NewApi")
     operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
 
         if(configValues.containsKey(property.name)) {
