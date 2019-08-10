@@ -45,16 +45,5 @@ object StaticConfigAPI {
         })
     }
 
-    fun downloadUpdateFile(it: StaticConfigResponse, ctx: Context) {
-        val downloadManager = ctx.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val url = Uri.parse(it.url_arm ?: "")
 
-        val request = DownloadManager.Request(url)
-        request.setTitle("NCL updating")
-        request.setDescription("Downloading")
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        request.setVisibleInDownloadsUi(false)
-
-        downloadManager.enqueue(request)
-    }
 }

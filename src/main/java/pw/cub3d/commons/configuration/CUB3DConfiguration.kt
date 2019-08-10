@@ -11,11 +11,12 @@ import pw.cub3d.commons.CUB3
 import pw.cub3d.commons.api.ConfigurationAPI
 import pw.cub3d.commons.logging.Log
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-class CUB3DConfiguration(val ctx: Context, val defaultConfigName: String = "config") {
+class CUB3DConfiguration(val ctx: Context, private val defaultConfigName: String = "config") {
 
-    val configValues = ConcurrentHashMap<String, Any>()
+    private val configValues = ConcurrentHashMap<String, Any>()
 
     init {
         // Automatically load a config json resource if there is one
