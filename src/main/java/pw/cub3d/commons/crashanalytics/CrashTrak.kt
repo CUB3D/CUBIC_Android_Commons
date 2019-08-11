@@ -18,6 +18,12 @@ import java.util.*
 
 
 object CrashTrak {
+    private val crashHandlers = mutableListOf<(Throwable)->Unit>()
+
+    fun registerCrashHandler(f: (Throwable) -> Unit) {
+        crashHandlers.add(f)
+    }
+
     fun triggerCrash() {
         throw RuntimeException("Manually triggered crash")
     }
@@ -65,6 +71,10 @@ object CrashTrak {
 
         val crashStore = File(getStorageDir(), UUID.randomUUID().toString())
         crashStore.writeBytes(msgByteArray)
+
+        crashHandlers.forEach {
+            it.invoke(exception)
+        }
     }
 
     /**
