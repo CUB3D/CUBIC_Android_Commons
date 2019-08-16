@@ -15,13 +15,16 @@ import retrofit2.http.Path
 
 interface ConfigurationService {
     @GET("/api/config/{project_id}/{device_id}")
-    fun getConfig(@Path("project_id") projectId: String, @Path("device_id") deviceid: String): Call<String>
+    fun getConfig(
+        @Path("project_id") projectId: String,
+        @Path("device_id") deviceid: String
+    ): Call<String>
 }
 
 object ConfigurationAPI {
     private const val CONFIGURATION_URL = "https://config.cub3d.pw/"
 
-    val service = Retrofit.Builder()
+    val service: ConfigurationService = Retrofit.Builder()
         .baseUrl(CONFIGURATION_URL)
         .addConverterFactory(ScalarsConverterFactory.create())
         .build()

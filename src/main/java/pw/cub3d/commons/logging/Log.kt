@@ -5,3 +5,6 @@ object Log: Logger("Test") {
         return logHistory
     }
 }
+
+fun debug(d: Any?) = Log.d(d)
+fun debug(d: String) = Log.d(d)
