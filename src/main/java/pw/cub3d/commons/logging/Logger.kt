@@ -16,9 +16,8 @@ open class Logger(val tag: String) {
         }
     }
 
-    fun d(msg: String) {
-        logMsg(Log.DEBUG, msg)
-    }
+    fun d(msg: Any?) = d(msg.toString())
+    fun d(msg: String) = logMsg(Log.DEBUG, msg)
 
     fun e(s: String) {
         logMsg(Log.ERROR, s)
