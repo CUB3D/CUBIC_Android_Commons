@@ -2,6 +2,7 @@ package pw.cub3d.commons.api
 
 import android.util.Base64
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import okhttp3.OkHttpClient
 import pw.cub3d.commons.logging.Log
 import retrofit2.Call
@@ -19,6 +20,7 @@ interface FeatureSuggestionService {
     fun sendFeatureSuggestion(@Body suggestion: String): Call<FeatureSuggestionResponse>
 }
 
+@JsonClass(generateAdapter = true)
 class FeatureSuggestionResponse {
     @Json(name = "Status")
     var status: Int = 0
