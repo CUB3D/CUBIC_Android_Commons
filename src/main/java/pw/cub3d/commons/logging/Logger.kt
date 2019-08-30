@@ -8,11 +8,16 @@ import java.io.StringWriter
 
 open class Logger(val tag: String) {
     val logHistory = ArrayList<String>()
+    private val logCallbacks = mutableListOf<(Int, String)->Unit>()
 
     private fun logMsg(priority: Int, msg: String) {
         if(CUB3.initialised() && CUB3.getConfig().variant.shouldLog) {
             Log.println(priority, tag, msg)
             logHistory.add("[${System.currentTimeMillis()}] [$tag] [$priority] $msg")
+        }
+
+        logCallbacks.forEach {
+            it.invoke(priority, msg)
         }
     }
 
@@ -28,5 +33,9 @@ open class Logger(val tag: String) {
         e.printStackTrace(PrintWriter(sw))
         logMsg(Log.ERROR, sw.toString())
         CrashTrak.logCrash(e)
+    }
+
+    fun logCallback(callback: (Int, String)->Unit) {
+        logCallbacks.add(callback)
     }
 }
