@@ -5,6 +5,7 @@ import org.json.JSONObject
 import pw.cub3d.commons.CUB3
 import pw.cub3d.commons.api.ConfigurationAPI
 import pw.cub3d.commons.logging.Log
+import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KProperty
 
@@ -21,8 +22,22 @@ class CUB3DConfiguration(val ctx: Context, private val defaultConfigName: String
                 loadFromJson(JSONObject(ctx.resources.openRawResource(it).bufferedReader().readText()))
             }
 
+        // Load any cached online config
+        val cacheFile = File(ctx.filesDir, "OnlineConfigCache.json")
+
+        if(cacheFile.exists()) {
+            loadFromJson(JSONObject(cacheFile.bufferedReader().readText()))
+        }
+
         // Try to fetch a network config
-         ConfigurationAPI.getConfig()
+         ConfigurationAPI.getConfig {
+
+             // Save the new config to cache
+             cacheFile.writeText(it)
+
+             // Load the new config
+             loadFromJson(JSONObject(it))
+         }
     }
 
     fun loadFromJson(json: JSONObject) {

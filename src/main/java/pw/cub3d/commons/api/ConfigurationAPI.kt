@@ -30,7 +30,7 @@ object ConfigurationAPI {
         .build()
         .create(ConfigurationService::class.java)
 
-    fun getConfig() {
+    inline fun getConfig(crossinline onConfigLoaded: (String)->Unit) {
         service.getConfig("0d1a7dae-1780-4cd2-abcc-307eff8ec734", DeviceIdentification.getDeviceID()).enqueue(object: Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Log.e("Unable to retrieve config")
@@ -40,7 +40,7 @@ object ConfigurationAPI {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if(response.isSuccessful) {
                     Log.d("Got remote config ${response.body()!!}")
-                    CUB3.getConfiguration().loadFromJson(JSONObject(response.body()!!))
+                    onConfigLoaded(response.body()!!)
                 } else {
                     Log.e("Unable to retrieve config: ${response.message()}")
                 }
