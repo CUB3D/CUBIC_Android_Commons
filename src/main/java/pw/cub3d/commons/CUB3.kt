@@ -4,40 +4,40 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import pw.cub3d.commons.configuration.CUB3Config
+import pw.cub3d.commons.configuration.CUB3DConfiguration
 import pw.cub3d.commons.configuration.CUB3Variant
 import pw.cub3d.commons.crashanalytics.CrashTrak
+import pw.cub3d.commons.identification.DeviceIdentification
 import pw.cub3d.commons.utils.Accounts
 import pw.cub3d.commons.utils.SharedPrefs
 
 class CUB3(ctx: Context) {
     val config = CUB3Config(ctx)
+    val configuration = CUB3DConfiguration(ctx)
 
     companion object {
         private var instance : CUB3? = null
 
         fun initialise(ctx: Context) {
+            SharedPrefs.initialise(ctx)
+            DeviceIdentification.initialise()
+
             instance = CUB3(ctx)
             CrashTrak.register()
-            SharedPrefs.initialise(ctx)
             Accounts.initialise(ctx)
 
             Log.d("CUB3", "Variant: ${getInstance().config.variant}")
         }
 
-        private fun getInstance(): CUB3 {
-            return instance!!
-        }
+        private fun getInstance() = instance!!
 
         fun initialised() = instance != null
 
-        fun getConfig(): CUB3Config {
-            return getInstance().config
-        }
+        fun getConfig(): CUB3Config = getInstance().config
 
-        fun getVariant(): CUB3Variant {
-            return getConfig().variant
-        }
+        fun getConfiguration() = getInstance().configuration
 
+        fun getVariant(): CUB3Variant = getConfig().variant
 
 
         // Helpers - version

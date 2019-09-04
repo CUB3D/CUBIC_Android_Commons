@@ -11,15 +11,25 @@ import java.io.StringWriter
 import java.lang.RuntimeException
 import java.nio.charset.Charset
 import pw.cub3d.commons.api.ICrashLogger
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.lang.Exception
 import java.util.*
 
 
 object CrashTrak {
+    private val crashHandlers = mutableListOf<(Throwable)->Unit>()
+
+    fun registerCrashHandler(f: (Throwable) -> Unit) {
+        crashHandlers.add(f)
+    }
+
     fun triggerCrash() {
         throw RuntimeException("Manually triggered crash")
+    }
+
+    fun logCrash(t: Throwable) {
+        onExceptionCaught(t, Thread.currentThread())
     }
 
     private fun getCallerCallerClassName(): String {
@@ -61,6 +71,10 @@ object CrashTrak {
 
         val crashStore = File(getStorageDir(), UUID.randomUUID().toString())
         crashStore.writeBytes(msgByteArray)
+
+        crashHandlers.forEach {
+            it.invoke(exception)
+        }
     }
 
     /**
@@ -107,7 +121,7 @@ object CrashTrak {
 
             val rf = Retrofit.Builder()
                 .baseUrl("https://auth.cub3d.pw")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
             val service = rf.create(ICrashLogger::class.java)

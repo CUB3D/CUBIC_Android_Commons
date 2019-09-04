@@ -33,9 +33,7 @@ object SharedPrefs : SharedPreferences {
         return prefs!!.edit()
     }
 
-    override fun getLong(key: String?, defValue: Long): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getLong(key: String?, defValue: Long) = prefs!!.getLong(key, defValue)
 
     override fun getFloat(key: String?, defValue: Float): Float {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

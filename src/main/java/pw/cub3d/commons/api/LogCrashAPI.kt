@@ -1,7 +1,7 @@
 package pw.cub3d.commons.api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,8 +11,8 @@ interface ICrashLogger {
     fun submitCrashLog(@Body log: String): Call<LogResponse>
 }
 
+@JsonClass(generateAdapter = true)
 class LogResponse {
-    @Expose
-    @SerializedName("Status")
+    @Json(name = "Status")
     var status: Int? = -100
 }
