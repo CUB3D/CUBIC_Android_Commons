@@ -44,11 +44,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.8.0")
-
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.1'
     implementation 'com.squareup.retrofit2:converter-scalars:2.6.1'
+
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.8.0")
 }
 
 repositories {

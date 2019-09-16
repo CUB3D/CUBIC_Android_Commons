@@ -1,10 +1,13 @@
 package pw.cub3d.commons.logging
 
-object Log: Logger("Test") {
+
+object Log: Logger("BaseLogger") {
     fun getLogHistory(): List<String> {
         return logHistory
     }
 }
 
-fun debug(d: String) = Log.d(d)
-fun debug(d: Any) = Log.d(d.toString())
+fun Any.getLogger() = Logger(this.javaClass.simpleName)
+
+fun Any.debug(msg: String) = getLogger().d(msg)
+fun Any.debug(msg: Any) = debug(msg.toString())
