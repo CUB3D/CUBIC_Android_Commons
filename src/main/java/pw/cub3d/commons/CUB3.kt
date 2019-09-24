@@ -1,6 +1,7 @@
 package pw.cub3d.commons
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
 import android.util.Log
 import pw.cub3d.commons.configuration.CUB3Config
@@ -15,6 +16,9 @@ class CUB3(ctx: Context) {
     val config = CUB3Config(ctx)
     val configuration = CUB3DConfiguration(ctx)
 
+    //TODO: permission check
+    private val connectivityManager = ctx.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
     companion object {
         private var instance : CUB3? = null
 
@@ -23,6 +27,8 @@ class CUB3(ctx: Context) {
             DeviceIdentification.initialise()
 
             instance = CUB3(ctx)
+            instance!!.configuration.init()
+
             CrashTrak.register()
             Accounts.initialise(ctx)
 
@@ -59,6 +65,12 @@ class CUB3(ctx: Context) {
             if(getVariant() != CUB3Variant.EMULATOR) {
                 callback()
             }
+        }
+
+        // Helpers - extra
+        fun isNetworkAvailable(): Boolean {
+            val activeNetworkInfo = getInstance().connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
         }
     }
 }

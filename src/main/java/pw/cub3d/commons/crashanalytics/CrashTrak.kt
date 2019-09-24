@@ -1,5 +1,7 @@
 package pw.cub3d.commons.crashanalytics
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Base64
 import android.util.Log
 import kotlinx.coroutines.GlobalScope
@@ -11,6 +13,7 @@ import java.io.StringWriter
 import java.lang.RuntimeException
 import java.nio.charset.Charset
 import pw.cub3d.commons.api.ICrashLogger
+import pw.cub3d.commons.logging.debug
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.lang.Exception
@@ -111,6 +114,11 @@ object CrashTrak {
     }
 
     private fun uploadPendingCrashes() {
+        if(!CUB3.isNetworkAvailable()) {
+            debug("Not uploading crashes, no network")
+            return
+        }
+
         val crashStore = getStorageDir()
 
         crashStore.listFiles().forEach {

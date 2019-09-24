@@ -13,7 +13,7 @@ class CUB3DConfiguration(val ctx: Context, private val defaultConfigName: String
 
     private val configValues = ConcurrentHashMap<String, Any>()
 
-    init {
+    fun init() {
         // Automatically load a config json resource if there is one
         ctx.resources
             .getIdentifier(defaultConfigName, "raw", ctx.packageName)
@@ -23,21 +23,23 @@ class CUB3DConfiguration(val ctx: Context, private val defaultConfigName: String
             }
 
         // Load any cached online config
-        val cacheFile = File(ctx.filesDir, "OnlineConfigCache.json")
+        val cacheFile = File(CUB3.getConfig().dataDirectory, "OnlineConfigCache.json")
 
         if(cacheFile.exists()) {
             loadFromJson(JSONObject(cacheFile.bufferedReader().readText()))
         }
 
-        // Try to fetch a network config
-         ConfigurationAPI.getConfig {
+        // Try to fetch a network config, if we have a network connection
+        if(CUB3.isNetworkAvailable()) {
+            ConfigurationAPI.getConfig {
 
-             // Save the new config to cache
-             cacheFile.writeText(it)
+                // Save the new config to cache
+                cacheFile.writeText(it)
 
-             // Load the new config
-             loadFromJson(JSONObject(it))
-         }
+                // Load the new config
+                loadFromJson(JSONObject(it))
+            }
+        }
     }
 
     fun loadFromJson(json: JSONObject) {

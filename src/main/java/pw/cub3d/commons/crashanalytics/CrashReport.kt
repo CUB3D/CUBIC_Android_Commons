@@ -21,8 +21,10 @@ Logs leading up to this crash:
 ===
 """.trimIndent()
 
-        Log.getLogHistory().map {
-            baseReportString += "$it\n"
+        val history = Log.getLogHistory()
+
+        for(x in history.indices) {
+            baseReportString += "${history[x]}\n"
         }
 
         return baseReportString
