@@ -62,6 +62,23 @@ class CUB3DConfiguration(val ctx: Context, private val defaultConfigName: String
     operator fun <T> setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         println("$value has been assigned to '${property.name}' in $thisRef.")
     }
+
+    fun getString(name: String, default: String? = null): String? = if(configValues.containsKey(name)) {
+        configValues[name] as String?
+    } else {
+        default
+    }
+
+    fun getMap(name: String): Map<String, String> = getString(name, "")!!
+            .split(";")
+            .map {
+                val parts = it.split("=")
+                parts[0] to parts[1]
+            }.toMap()
+
+    fun getArray(name: String): Array<String> = getString(name, "")!!
+        .split(";")
+        .toTypedArray()
 }
 
 fun CUB3DConfiguration() = CUB3.getConfiguration()

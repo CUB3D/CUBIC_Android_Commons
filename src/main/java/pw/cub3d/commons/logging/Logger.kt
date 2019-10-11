@@ -6,7 +6,7 @@ import pw.cub3d.commons.crashanalytics.CrashTrak
 import java.io.PrintWriter
 import java.io.StringWriter
 
-open class Logger(val tag: String) {
+open class Logger(private val tag: String) {
     val logHistory = ArrayList<String>()
     private val logCallbacks = mutableListOf<(Int, String)->Unit>()
 
@@ -23,6 +23,9 @@ open class Logger(val tag: String) {
 
     fun d(msg: Any?) = d(msg.toString())
     fun d(msg: String) = logMsg(Log.DEBUG, msg)
+
+    fun i(msg: Any?) = i (msg.toString())
+    fun i(msg: String) = logMsg(Log.INFO, msg)
 
     fun e(s: String) {
         logMsg(Log.ERROR, s)
