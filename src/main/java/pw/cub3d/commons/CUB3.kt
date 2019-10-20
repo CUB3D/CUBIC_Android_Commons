@@ -53,6 +53,12 @@ class CUB3(ctx: Context) {
             }
         }
 
+        inline fun ifAndroid10(callback: ()->Unit) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                callback()
+            }
+        }
+
 
         // Helpers - config
         inline fun ifEmulator(callback: ()->Unit) {
