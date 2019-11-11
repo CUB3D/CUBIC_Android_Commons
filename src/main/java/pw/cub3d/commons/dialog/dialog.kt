@@ -6,6 +6,7 @@ import android.view.View
 import android.view.Window
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.android.material.button.MaterialButton
 import pw.cub3d.commons.R
 
 class DialogBuilder(val ctx: Context) {
@@ -29,6 +30,7 @@ class DialogBuilder(val ctx: Context) {
     }
 
     fun loadIndefinitely() {
+        withoutOkButton()
         dialog.setCancelable(false)
         withSpinner()
     }
@@ -37,6 +39,14 @@ class DialogBuilder(val ctx: Context) {
         dialog.show()
         return dialog
     }
+
+    fun withOkButton() {
+        dialog.okButton.visibility = View.VISIBLE
+    }
+
+    fun withoutOkButton() {
+        dialog.okButton.visibility = View.GONE
+    }
 }
 
 class Dialog(val ctx: Context) : Dialog(ctx) {
@@ -44,6 +54,7 @@ class Dialog(val ctx: Context) : Dialog(ctx) {
     val title: TextView
     val contentText: TextView
     val spinner: ProgressBar
+    val okButton: MaterialButton
 
     init {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -51,5 +62,12 @@ class Dialog(val ctx: Context) : Dialog(ctx) {
         title = findViewById(R.id.dialog_Title)
         contentText = findViewById(R.id.dialog_Content)
         spinner = findViewById(R.id.dialog_spinner)
+        okButton = findViewById(R.id.dialog_Ok)
+
+        spinner.visibility = View.GONE
+
+        okButton.setOnClickListener {
+            dismiss()
+        }
     }
 }
