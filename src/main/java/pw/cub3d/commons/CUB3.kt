@@ -2,8 +2,10 @@ package pw.cub3d.commons
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import pw.cub3d.commons.configuration.CUB3Config
 import pw.cub3d.commons.configuration.CUB3DConfiguration
 import pw.cub3d.commons.configuration.CUB3Variant
@@ -22,14 +24,16 @@ class CUB3(ctx: Context) {
     companion object {
         private var instance : CUB3? = null
 
-        fun initialise(ctx: Context) {
+        fun initialise(ctx: Context, enableCrashTrak: Boolean = true) {
             SharedPrefs.initialise(ctx)
             DeviceIdentification.initialise()
 
             instance = CUB3(ctx)
             instance!!.configuration.init()
 
-            CrashTrak.register()
+            if(enableCrashTrak)
+                CrashTrak.register()
+
             Accounts.initialise(ctx)
 
             Log.d("CUB3", "Variant: ${getInstance().config.variant}")
@@ -77,6 +81,12 @@ class CUB3(ctx: Context) {
         fun isNetworkAvailable(): Boolean {
             val activeNetworkInfo = getInstance().connectivityManager.activeNetworkInfo
             return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun isUsingMobileData(): Boolean {
+            val cm = getInstance().connectivityManager
+            return cm.getNetworkCapabilities(cm.activeNetwork)?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false
         }
     }
 }

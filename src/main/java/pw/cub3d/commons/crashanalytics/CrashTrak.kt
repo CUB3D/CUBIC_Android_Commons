@@ -35,6 +35,10 @@ object CrashTrak {
         onExceptionCaught(t, Thread.currentThread())
     }
 
+    fun removePendingCrashes() {
+        getStorageDir().deleteRecursively()
+    }
+
     private fun getCallerCallerClassName(): String {
         val stElements = Thread.currentThread().stackTrace
         var callerClassName: String? = null
