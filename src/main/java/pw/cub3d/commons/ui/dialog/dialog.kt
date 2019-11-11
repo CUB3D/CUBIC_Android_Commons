@@ -1,4 +1,4 @@
-package pw.cub3d.commons.dialog
+package pw.cub3d.commons.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -9,7 +9,7 @@ import android.widget.TextView
 import pw.cub3d.commons.R
 
 class DialogBuilder(val ctx: Context) {
-    val dialog: pw.cub3d.commons.dialog.Dialog = pw.cub3d.commons.dialog.Dialog(ctx)
+    val dialog: pw.cub3d.commons.ui.dialog.Dialog = pw.cub3d.commons.ui.dialog.Dialog(ctx)
 
     init {
         withText("")
