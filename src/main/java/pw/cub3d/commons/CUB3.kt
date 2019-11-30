@@ -51,6 +51,18 @@ class CUB3(ctx: Context) {
 
 
         // Helpers - version
+        inline fun ifMarshmallow(callback: ()->Unit) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                callback()
+            }
+        }
+
+        inline fun ifBelowMarshmallow(callback: ()->Unit) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                callback()
+            }
+        }
+
         inline fun ifOreo(callback: ()->Unit) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 callback()
